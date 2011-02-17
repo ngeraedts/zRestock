@@ -41,11 +41,11 @@ local function ItemLinkToItemID(itemlink)
 end
 
 local function TR_GetItemInventoryCount(itemID)
-	count = 0
+	local count = 0
 	for bag = 0, 4, 1 do
 		for slot = 1, GetContainerNumSlots(bag), 1 do
 			if itemID == GetContainerItemID(bag,slot) then
-				_, slotcount = GetContainerItemInfo(bag,slot)
+				local _, slotcount = GetContainerItemInfo(bag,slot)
 				count = count + slotcount
 			end
 		end
@@ -56,7 +56,7 @@ end
 
 local function TR_GetMerchantItemIndex(itemID)
 	for i = 1, GetMerchantNumItems() do
-		merchantIL = GetMerchantItemLink(i)
+		local merchantIL = GetMerchantItemLink(i)
 		local merchantIID = ItemLinkToItemID(merchantIL)
 		if itemID == merchantIID then
 			return i
@@ -75,12 +75,12 @@ end
 
 local function eventHandler(self, event, ...)
 	for item,stack in pairs(items) do
-		_, itemLink, _, _, _, _, _, iStackCount = GetItemInfo(item)
-		itemID = ItemLinkToItemID(itemLink)
-		invItemCount = TR_GetItemInventoryCount(item)
-		merchantIndex = TR_GetMerchantItemIndex(item)
-		numPurchase = stack - invItemCount
-		if numPurchase > 0 then
+		local _, itemLink, _, _, _, _, _, iStackCount = GetItemInfo(item)
+		local itemID = ItemLinkToItemID(itemLink)
+		local invItemCount = TR_GetItemInventoryCount(item)
+		local merchantIndex = TR_GetMerchantItemIndex(item)
+		local numPurchase = stack - invItemCount
+		if numPurchase > 0 and merchantIndex ~= nil then
 			if verbose then print("Buying "..numPurchase.." "..itemLink) end
 			TR_BuyItemFromMerchant(merchantIndex,numPurchase,iStackCount)
 		end
