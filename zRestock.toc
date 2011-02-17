@@ -1,0 +1,7 @@
+## Interface: 40000
+## Title: zRestock
+## Version: 0.5 BETA
+## Author: Zxian
+## Notes: An extremely lightweight reagent restocker
+
+Core.lua
