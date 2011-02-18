@@ -5,6 +5,7 @@ local T, C, L = unpack(Tukui)
 -------------------------------------
 
 local verbose = false
+local items = {}
 
 if T.myclass == "ROGUE" then
 	items = {
