@@ -37,8 +37,8 @@ end
 -------------------------------------
 
 
-local function ItemLinkToItemID(itemLink)
-	return tonumber(string.match(itemLink, "item:(%d+)"))
+local function ItemLinkToItemID(itemlink)
+	return tonumber(string.match(itemlink, "item:(%d+)"))
 end
 
 local function TR_GetItemInventoryCount(itemID)
@@ -46,8 +46,8 @@ local function TR_GetItemInventoryCount(itemID)
 	for bag = 0, 4, 1 do
 		for slot = 1, GetContainerNumSlots(bag), 1 do
 			if itemID == GetContainerItemID(bag,slot) then
-				local _, slotCount = GetContainerItemInfo(bag,slot)
-				count = count + slotCount
+				local _, slotcount = GetContainerItemInfo(bag,slot)
+				count = count + slotcount
 			end
 		end
 	end
@@ -58,14 +58,9 @@ end
 local function TR_GetMerchantItemIndex(itemID)
 	for i = 1, GetMerchantNumItems() do
 		local merchantIL = GetMerchantItemLink(i)
-		if not merchantIL then
-			merchantIL = GetMerchantItemLink(i)
-		end
-		if merchantIL then
-			local merchantIID = ItemLinkToItemID(merchantIL)
-			if itemID == merchantIID then
-				return i
-			end
+		local merchantIID = ItemLinkToItemID(merchantIL)
+		if itemID == merchantIID then
+			return i
 		end
 	end
 	return
@@ -82,6 +77,7 @@ end
 local function eventHandler(self, event, ...)
 	for item,stack in pairs(items) do
 		local _, itemLink, _, _, _, _, _, iStackCount = GetItemInfo(item)
+		local itemID = ItemLinkToItemID(itemLink)
 		local invItemCount = TR_GetItemInventoryCount(item)
 		local merchantIndex = TR_GetMerchantItemIndex(item)
 		local numPurchase = stack - invItemCount
